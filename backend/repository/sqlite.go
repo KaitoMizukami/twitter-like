@@ -3,21 +3,23 @@ package repository
 import (
 	"database/sql"
 
+	_ "github.com/mattn/go-sqlite3"
+
 	"github.com/KaitoMizukami/twitter-like/models"
 )
 
-type postMysqlRepository struct {
+type SqliteRepo struct {
 	db *sql.DB
 }
 
-func NewPostMysqlRepository(db *sql.DB) *postMysqlRepository {
-	return &postMysqlRepository{
+func NewSqliteRepo(db *sql.DB) *SqliteRepo {
+	return &SqliteRepo{
 		db: db,
 	}
 }
 
-func (mr *postMysqlRepository) GetAllPosts() ([]*models.Post, error) {
-	rows, err := mr.db.Query("SELECT id, content, createdAt FROM posts;")
+func (sr *SqliteRepo) GetAllPosts() ([]*models.Post, error) {
+	rows, err := sr.db.Query("SELECT id, content, createdAt FROM posts;")
 	if err != nil {
 		return nil, err
 	}
